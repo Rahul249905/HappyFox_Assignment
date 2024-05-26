@@ -26,7 +26,7 @@ class GmailAuthenticator:
                 if self.creds and self.creds.expired and self.creds.refresh_token:
                     self.creds.refresh(Request())
                 else:
-                    flow = InstalledAppFlow.from_client_secrets_file('../credentials_2.json', SCOPES)
+                    flow = InstalledAppFlow.from_client_secrets_file('../credentials.json', SCOPES)
                     self.creds = flow.run_local_server(port=0, prompt='consent', login_hint=EMAIL)
                 with open('../token.json', 'w') as token:
                     print("Writing token")
