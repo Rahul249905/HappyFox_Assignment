@@ -1,0 +1,38 @@
+[
+    {
+        "predicate": "All",
+        "conditions": [
+            {
+                "field": "From",
+                "predicate": "Contains",
+                "value": "rahul.sharma@fourkites.com"
+            },
+            {
+                "field": "Subject",
+                "predicate": "Equals",
+                "value": "testing 123"
+            }
+        ],
+        "actions": [
+            "Mark as unread",
+            "Move Message:INBOX"
+        ]
+    },
+    {
+        "predicate": "Any",
+        "conditions": [
+            {
+                "field": "From",
+                "predicate": "Contains",
+                "value": ""
+            },
+            {
+                "field": "Subject",
+                "predicate": "Equals",
+                "value": "testing 123"
+            }
+        ]
+    }
+
+
+]
