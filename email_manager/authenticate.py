@@ -18,17 +18,17 @@ class GmailAuthenticator:
 
     def authenticate(self):
         try:
-            if os.path.exists('token.json'):
+            if os.path.exists('../token.json'):
                 print("Reading token")
-                self.creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+                self.creds = Credentials.from_authorized_user_file('../token.json', SCOPES)
             if not self.creds or not self.creds.valid:
                 print("Authenticating")
                 if self.creds and self.creds.expired and self.creds.refresh_token:
                     self.creds.refresh(Request())
                 else:
-                    flow = InstalledAppFlow.from_client_secrets_file('credentials_2.json', SCOPES)
+                    flow = InstalledAppFlow.from_client_secrets_file('../credentials_2.json', SCOPES)
                     self.creds = flow.run_local_server(port=0, prompt='consent', login_hint=EMAIL)
-                with open('token.json', 'w') as token:
+                with open('../token.json', 'w') as token:
                     print("Writing token")
                     token.write(self.creds.to_json())
             return build('gmail', 'v1', credentials=self.creds)

@@ -3,36 +3,43 @@
         "predicate": "All",
         "conditions": [
             {
-                "field": "From",
+                "field": "received_date",
+                "predicate": "Less than",
+                "value": "7"
+            },
+            {
+                "field": "from_address",
                 "predicate": "Contains",
                 "value": "rahul.sharma@fourkites.com"
             },
             {
-                "field": "Subject",
-                "predicate": "Equals",
-                "value": "testing 123"
+                "field": "subject",
+                "predicate": "Contains",
+                "value": "mail"
             }
         ],
         "actions": [
-            "Mark as unread",
-            "Move Message:INBOX"
+            "Mark as read",
+            "Move Message:SPAM"
         ]
     },
     {
         "predicate": "Any",
         "conditions": [
             {
-                "field": "From",
-                "predicate": "Contains",
-                "value": ""
+                "field": "from_address",
+                "predicate": "Equals",
+                "value": "rahul.sharma@fourkites.com"
             },
             {
-                "field": "Subject",
+                "field": "subject",
                 "predicate": "Equals",
                 "value": "testing 123"
             }
+        ],
+        "actions": [
+            "Mark as read",
+            "Move Message:SPAM"
         ]
     }
-
-
 ]

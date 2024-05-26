@@ -2,6 +2,7 @@
 import json
 from email_manager.authenticate import GmailAuthenticator
 from email_manager.models import Email, get_session
+import datetime
 import logging
 
 
@@ -10,26 +11,42 @@ class EmailProcessor:
         self.session = get_session()
         self.service = GmailAuthenticator().authenticate()
 
-    def condition_matches(self, email, condition):
+    @staticmethod
+    def condition_matches(email, condition):
         try:
             field_name = condition['field']
             predicate = condition['predicate']
             value = condition['value']
             email_field_value = getattr(email, field_name.lower())
-            if predicate == 'Contains':
-                return value in email_field_value
-            elif predicate == 'Does not Contain':
-                return value not in email_field_value
-            elif predicate == 'Equals':
-                return email_field_value == value
-            elif predicate == 'Does not equal':
-                return email_field_value != value
-            elif predicate == 'Less than':
-                return email_field_value < value
-            elif predicate == 'Greater than':
-                return email_field_value > value
+            # Handle the 'received_date' field separately
+            if field_name == 'received_date':
+                days_threshold = int(value)
+
+                # Get the date part of the email's received date
+                email_date = email_field_value.date()
+
+                # Calculate the date threshold (current date - days_threshold)
+                email_threshold = (datetime.datetime.now().date() - email_date).days
+
+                # Check the predicate
+                if predicate == 'Greater than':
+                    return email_threshold > days_threshold
+                elif predicate == 'Less than':
+                    return email_threshold < days_threshold
+                else:
+                    return False
             else:
-                return False
+                # Handle other fields as before
+                if predicate == 'Contains':
+                    return value in email_field_value
+                elif predicate == 'Does not Contain':
+                    return value not in email_field_value
+                elif predicate == 'Equals':
+                    return email_field_value == value
+                elif predicate == 'Does not equal':
+                    return email_field_value != value
+                else:
+                    return False
         except Exception as e:
             logging.error("Error occurred during condition matching: %s", e)
             raise e
@@ -56,6 +73,7 @@ class EmailProcessor:
             raise e
 
     def mark_as_unread(self, msg_id):
+        print(f"Marking as unread: {msg_id}")
         try:
             self.service.users().messages().modify(userId='me', id=msg_id, body={'addLabelIds': ['UNREAD']}).execute()
         except Exception as e:
@@ -85,6 +103,7 @@ class EmailProcessor:
             raise e
 
     def process_emails(self):
+        print("Processing emails")
         try:
             with open('../rules.json') as f:
                 rules = json.load(f)
@@ -94,6 +113,7 @@ class EmailProcessor:
                 for rule in rules:
                     if rule['predicate'] == 'All' and all(
                             self.condition_matches(email, condition) for condition in rule['conditions']):
+                        print(f"Applying actions {rule['actions']} for email: {email.id}")
                         self.apply_actions(email, rule['actions'])
                     elif rule['predicate'] == 'Any' and any(
                             self.condition_matches(email, condition) for condition in rule['conditions']):
