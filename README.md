@@ -12,8 +12,8 @@ This project is designed to fetch emails from a Gmail account and process them b
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/email-fetcher-processor.git
-    cd email-fetcher-processor
+    git clone https://github.com/Rahul249905/HappyFox_Assignment.git
+    cd HappyFox_Assignment
     ```
 
 2. **Set up a virtual environment**:
@@ -23,7 +23,10 @@ This project is designed to fetch emails from a Gmail account and process them b
     ```
 
 2. **Install `pipenv`**:
+    Set up the environment and install dependencies:
     ```bash
+    pipenv install
+    pipenv shell
     pip install pipenv
     ```
 
