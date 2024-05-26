@@ -41,6 +41,7 @@ This project is designed to fetch emails from a Gmail account and process them b
     - Setup MySQL database in local and make sure it is running .
     - Create a database named `emaildb` in MySQL.
     - create a user having full access to this db.
+    - NOTE: Make sure you have added the user and pass in the correct place in model.py file
 
 ## Running the Project
 
