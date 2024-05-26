@@ -25,7 +25,7 @@ class Email(Base):
 
 
 def get_session():
-    engine = create_engine('mysql+pymysql://emailuser:rahul123@localhost/emaildb')  # Replace 'xyz' with your actual password
+    engine = create_engine('mysql+pymysql://emailuser:rahul123@localhost/emaildb')  # Replace 'emailuser' and 'rahul123' with your actual user and password
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     return Session()
