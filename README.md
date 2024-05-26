@@ -22,9 +22,9 @@ This project is designed to fetch emails from a Gmail account and process them b
     source venv/bin/activate   # On Windows, use `venv\Scripts\activate`
     ```
 
-3. **Install the required packages**:
+2. **Install `pipenv`**:
     ```bash
-    pip install -r requirements.txt
+    pip install pipenv
     ```
 
 4. **Set up Gmail API credentials**:
